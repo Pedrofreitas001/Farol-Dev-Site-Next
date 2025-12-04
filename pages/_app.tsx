@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { SpeedInsightsWrapper } from "@/components/speed-insights-wrapper";
 import SEO from "../next-seo.config";
 
 import "../styles/index.css";
@@ -21,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Toaster />
                 <Sonner />
             </TooltipProvider>
+            <SpeedInsightsWrapper />
         </QueryClientProvider>
     );
 }
