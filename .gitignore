@@ -27,3 +27,5 @@ Thumbs.db
 # Tailwind build artifacts
 styles/out.css
 styles/out.css.map
+.vercel
+.env*.local
