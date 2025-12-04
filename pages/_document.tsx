@@ -7,6 +7,7 @@ export default function Document() {
                 <meta charSet="utf-8" />
                 <meta name="color-scheme" content="light dark" />
                 <meta name="format-detection" content="telephone=no,address=no,email=no" />
+                <link rel="icon" href="/icone_page.png" type="image/png" />
                 <link rel="preload" as="image" href="/logo_2.png" />
                 <link rel="preload" as="image" href="/quem_somos.png" />
             </Head>
