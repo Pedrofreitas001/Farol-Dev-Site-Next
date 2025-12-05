@@ -41,34 +41,7 @@ const Index = () => {
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        if (typeof window === "undefined") {
-            return;
-        }
-        const elements = Array.from(document.querySelectorAll<HTMLElement>(".section-reveal"));
-        if (!elements.length) {
-            return;
-        }
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("is-visible");
-                    }
-                });
-            },
-            {
-                threshold: 0.18,
-                rootMargin: "0px 0px -5% 0px",
-            }
-        );
 
-        elements.forEach((el) => observer.observe(el));
-
-        return () => {
-            observer.disconnect();
-        };
-    }, []);
     const faqEntries = [
         {
             question: "Quais processos vocês conseguem automatizar?",
@@ -214,7 +187,7 @@ const Index = () => {
 
                 <section className="pt-20 pb-24 px-4 bg-white">
                     <div className="container mx-auto max-w-6xl">
-                        <div className="max-w-6xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                        <div className="max-w-6xl mx-auto mb-12">
                             <div className="flex flex-col md:flex-row items-start gap-8 text-left">
                                 <img
                                     src="/logo_2.png"
