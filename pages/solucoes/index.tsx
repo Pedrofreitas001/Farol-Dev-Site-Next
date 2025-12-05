@@ -117,31 +117,40 @@ const Solucoes = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="pt-32 pb-20 px-4">
+                <section className="pt-32 pb-20 px-4 w-full bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700">
                     <div className="container mx-auto max-w-6xl">
                         <div className="text-center max-w-3xl mx-auto mb-16">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Nossas Soluções</h1>
-                            <p className="text-xl text-muted-foreground">
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">Nossas Soluções</h1>
+                            <p className="text-xl text-white/90">
                                 Automações robustas que resolvem problemas reais em processos financeiros, administrativos e contábeis.
                             </p>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-8 mb-16">
                             {solutions.map((solution) => (
-                                <Card key={solution.title} className="border-2 hover:border-primary/50 transition-all duration-300">
-                                    <CardHeader>
-                                        <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                                            <solution.icon className="w-7 h-7 text-primary" />
+                                <Card
+                                    key={solution.title}
+                                    className="bg-gradient-to-br from-blue-900/90 via-gray-900/80 to-blue-800/70 backdrop-blur-md shadow-xl rounded-3xl text-white transition-all duration-300 border-2 border-transparent hover:border-blue-400 hover:shadow-blue-400/30 px-4 py-5"
+                                >
+                                    <CardHeader className="pb-2">
+                                        <div className="flex items-start justify-between mb-2">
+                                            <div>
+                                                <CardTitle className="text-2xl md:text-3xl font-semibold text-white/95 tracking-tight leading-snug drop-shadow-lg mb-1">
+                                                    {solution.title}
+                                                </CardTitle>
+                                                <p className="text-lg md:text-xl text-white/85 leading-relaxed">
+                                                    {solution.description}
+                                                </p>
+                                            </div>
+                                            <solution.icon className="w-14 h-14 text-[#00e6ff] drop-shadow-[0_0_12px_#00e6ff] ml-4" />
                                         </div>
-                                        <CardTitle className="text-2xl mb-2">{solution.title}</CardTitle>
-                                        <p className="text-muted-foreground">{solution.description}</p>
                                     </CardHeader>
-                                    <CardContent>
-                                        <ul className="space-y-3">
+                                    <CardContent className="pt-0">
+                                        <ul className="space-y-3 mt-6">
                                             {solution.features.map((feature) => (
                                                 <li key={feature} className="flex items-start gap-2">
-                                                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                                                    <span className="text-sm">{feature}</span>
+                                                    <CheckCircle2 className="w-6 h-6 text-[#00e6ff] drop-shadow-[0_0_6px_#00e6ff] shrink-0 mt-0.5" />
+                                                    <span className="text-base md:text-lg text-white/90 leading-snug">{feature}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -150,10 +159,11 @@ const Solucoes = () => {
                             ))}
                         </div>
 
-                        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+                        <div className="mt-60"></div>
+                        <Card className="bg-gradient-to-br from-purple-900/90 via-indigo-900/95 to-blue-900/80 text-white rounded-2xl">
                             <CardContent className="p-12 text-center">
                                 <h2 className="text-3xl font-bold mb-4">Não encontrou o que procura?</h2>
-                                <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                                <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
                                     Desenvolvemos automações sob medida para qualquer processo. Entre em contato e vamos entender sua necessidade específica.
                                 </p>
                                 <Button size="lg" className="gap-2" asChild>

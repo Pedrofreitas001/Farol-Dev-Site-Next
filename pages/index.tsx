@@ -212,7 +212,7 @@ const Index = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="pt-16 pb-10 px-4 bg-white">
+                <section className="pt-20 pb-24 px-4 bg-white">
                     <div className="container mx-auto max-w-6xl">
                         <div className="max-w-6xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                             <div className="flex flex-col md:flex-row items-start gap-8 text-left">
@@ -263,6 +263,26 @@ const Index = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Botão animado para scroll */}
+                    <div className="flex justify-center mt-8">
+                        <button
+                            onClick={() => {
+                                const target = document.getElementById('porque-farol-dev');
+                                if (target) {
+                                    const header = document.querySelector('header');
+                                    const headerHeight = header ? header.offsetHeight : 80;
+                                    const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                                }
+                            }}
+                            className="animate-bounce bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700 text-white rounded-full p-3 shadow-lg transition-all duration-300"
+                            aria-label="Ir para próxima sessão"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
                 </section>
 
                 <section className="section-reveal pt-0 pb-0 px-0">
@@ -272,13 +292,13 @@ const Index = () => {
                             background: "linear-gradient(180deg, #071833 0%, #0c1f3f 18%, #123558 36%, #17606a 54%, #1e8a68 72%, #27a773 88%, #2f9f7c 100%)",
                         }}
                     >
-                        <div className="container mx-auto max-w-7xl px-6 py-12">
-                            <div className="text-center mb-12">
+                        <div className="container mx-auto max-w-7xl px-6 py-12 block">
+                            <div id="porque-farol-dev" className="text-center mb-12">
                                 <h2 className="text-4xl md:text-[2.75rem] font-bold mb-4 text-white">Por que escolher a Farol Dev.</h2>
                                 <p className="text-lg text-white/90 max-w-2xl mx-auto">Cada automação nasce de um diagnóstico preciso da sua rotina</p>
                             </div>
 
-                            <div className="why-cards flex flex-col md:flex-row gap-8 md:gap-10 mt-8 md:mt-24">
+                            <div className="why-cards flex flex-col md:flex-row gap-8 md:gap-10 mt-4 md:mt-24">
                                 {[Zap, Shield, TrendingUp].map((Icon, index) => (
                                     <div key={index} className="why-card text-center flex-1">
                                         <div className="why-card__accent"></div>
