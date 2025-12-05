@@ -185,17 +185,17 @@ const Index = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="pt-20 pb-24 px-4 bg-white">
-                    <div className="container mx-auto max-w-6xl">
+                <section className="pt-32 pb-56 px-4 bg-white">
+                    <div className="container mx-auto max-w-[1800px] px-2">
                         <div className="max-w-6xl mx-auto mb-12">
-                            <div className="flex flex-col md:flex-row items-start gap-8 text-left">
+                            <div className="flex flex-col lg:flex-row items-start lg:justify-between gap-16 xl:gap-32 text-left">
                                 <img
                                     src="/logo_2.png"
                                     alt="Farol Dev. Logo"
-                                    className="w-[300px] h-auto md:w-[400px] object-contain md:-ml-28 lg:-ml-36 xl:-ml-44 md:mt-2"
+                                    className="w-[300px] h-auto md:w-[400px] object-contain md:-ml-20 lg:-ml-32 xl:-ml-44 md:mt-2"
                                 />
 
-                                <div className="flex flex-col h-full flex-1 md:pl-16 md:mt-8 bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700 pt-10 pb-10 px-8 rounded-lg md:mr-[-121px] md:w-[calc(100%+100px)]">
+                                <div className="flex flex-col h-full flex-1 md:pl-16 md:mt-8 bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700 pt-10 pb-10 px-8 rounded-lg md:mr-[-121px] md:w-[850px] lg:w-[1000px] xl:w-[1150px] 2xl:w-[1300px]">
                                     <div className="inline-block w-fit mt-0 px-2 py-1 bg-primary/40 rounded-full mb-4">
                                         <span className="text-sm font-medium text-blue-400">Automação Inteligente para Empresas Modernas</span>
                                     </div>
@@ -237,7 +237,7 @@ const Index = () => {
                         </div>
                     </div>
                     {/* Botão animado para scroll */}
-                    <div className="flex justify-center mt-8">
+                    <div className="flex justify-center mt-20">
                         <button
                             onClick={() => {
                                 const target = document.getElementById('porque-farol-dev');
