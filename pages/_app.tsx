@@ -10,6 +10,7 @@ import { SpeedInsightsWrapper } from "@/components/speed-insights-wrapper";
 import SEO from "../next-seo.config";
 
 import "../styles/index.css";
+import "../styles/App.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [queryClient] = useState(() => new QueryClient());
@@ -18,9 +19,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
             <DefaultSeo {...SEO} />
             <TooltipProvider>
-                <Component {...pageProps} />
-                <Toaster />
-                <Sonner />
+                <div className="w-screen overflow-x-hidden">
+                    <Component {...pageProps} />
+                    <Toaster />
+                    <Sonner />
+                </div>
             </TooltipProvider>
             <SpeedInsightsWrapper />
         </QueryClientProvider>

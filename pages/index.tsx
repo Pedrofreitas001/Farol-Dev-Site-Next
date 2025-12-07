@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BreadcrumbJsonLd, FAQPageJsonLd, NextSeo, OrganizationJsonLd } from "next-seo";
 import {
     ArrowRight,
@@ -26,6 +26,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { buildCanonical, siteUrl } from "@/lib/seo";
+import Image from "next/image";
 
 const Index = () => {
     const router = useRouter();
@@ -34,12 +35,45 @@ const Index = () => {
     const heroMessages = ["Automatize processos.", "Elimine erros manuais."];
     const [heroIndex, setHeroIndex] = useState(0);
 
+    // Refs and state to size/position the left black container (box2)
+    const box1Ref = useRef<HTMLDivElement | null>(null);
+    const sectionRef = useRef<HTMLDivElement | null>(null);
+    const [box1Metrics, setBox1Metrics] = useState({ top: 0, height: 0, left: 0, imageLeft: 0 });
+    const imageRef = useRef<HTMLImageElement | HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const updateMetrics = () => {
+            if (!box1Ref.current || !sectionRef.current) return;
+            const boxRect = box1Ref.current.getBoundingClientRect();
+            const sectionRect = sectionRef.current.getBoundingClientRect();
+            const left = Math.max(0, boxRect.left - sectionRect.left);
+            let imageLeft = 0;
+            if (imageRef.current) {
+                const imgRect = (imageRef.current as Element).getBoundingClientRect();
+                imageLeft = Math.max(0, imgRect.left - sectionRect.left);
+            }
+            setBox1Metrics({ top: Math.max(0, boxRect.top - sectionRect.top), height: boxRect.height, left, imageLeft });
+        };
+
+        // Initial calculation and on resize
+        updateMetrics();
+        window.addEventListener("resize", updateMetrics);
+        const ro = new ResizeObserver(updateMetrics);
+        if (box1Ref.current) ro.observe(box1Ref.current);
+
+        return () => {
+            window.removeEventListener("resize", updateMetrics);
+            ro.disconnect();
+        };
+    }, []);
+
     useEffect(() => {
         const interval = setInterval(() => {
             setHeroIndex((prev) => (prev + 1) % heroMessages.length);
         }, 2800);
+
         return () => clearInterval(interval);
-    }, []);
+    }, [heroMessages.length]);
 
 
     const faqEntries = [
@@ -185,60 +219,105 @@ const Index = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="pt-20 pb-56 px-4 bg-white">
-                    <div className="container mx-auto max-w-[1800px] px-2">
-                        <div className="w-full max-w-screen-xl mx-auto mb-12 px-2">
-                            <div className="flex flex-col lg:flex-row items-start lg:justify-between gap-8 xl:gap-16 text-left">
-                                <img
-                                    src="/logo_2.png"
-                                    alt="Farol Dev. Logo"
-                                    className="w-[355px] h-auto md:w-[440px] object-contain md:-ml-6 lg:-ml-10 xl:-ml-12 md:mt-2"
-                                />
+                <section ref={sectionRef} className="relative pt-16 pb-56 px-0 bg-white w-screen overflow-x-hidden border-b-8 border-[#071833]">
+                    {/* box2: left black container constrained vertically to box1 (only on md+) */}
+                    {box1Metrics.height > 0 && (
+                        <div
+                            aria-hidden
+                            className="hidden md:block"
+                            style={{
+                                position: 'absolute',
+                                // expand from left edge of image up to immediately left of box1
+                                // compute left and width dynamically
+                                // expand all the way to the left edge of the page
+                                left: 0,
+                                // width goes from left 0 up to just before box1 (small gap of 8px)
+                                width: Math.max(0, (box1Metrics.left || 0) - 8),
+                                // small gap between box2 and box1 is 8px
+                                top: box1Metrics.top,
+                                height: box1Metrics.height,
+                                // temporarily make box2 fully transparent
+                                background: 'transparent',
+                                boxShadow: 'none',
+                                border: 'none',
+                                borderRadius: '8px 0 0 8px',
+                                zIndex: 0,
+                            }}
+                        />
+                    )}
 
-                                <div className="flex flex-col h-full flex-1 md:pl-10 md:mt-8 bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700 pt-14 pb-20 px-6 rounded-lg md:mr-0 md:w-full lg:w-full xl:w-full 2xl:w-full">
-                                    <div className="inline-block w-fit mt-0 px-2 py-1 bg-primary/40 rounded-full mb-4">
-                                        <span className="text-sm font-medium text-blue-400">Automação Inteligente para Empresas Modernas</span>
-                                    </div>
-                                    {/* Título animado mais alto, mas com espaçamento próprio */}
-                                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 mt-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-white relative">
+                    <div className="grid grid-cols-1 md:grid-cols-3 min-h-[500px] w-full">
+                        {/* Parte 1: Imagem no fundo preto */}
+                        <div className="flex items-center justify-center">
+                            <div ref={imageRef} style={{ position: 'relative', display: 'inline-block' }}>
+                                <div style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    background: 'rgba(0, 0, 0, 0.5)',
+                                    borderRadius: '8px',
+                                    zIndex: -1,
+                                    clipPath: 'inset(0 round 8px)' // Restrict to box 1 size
+                                }}></div>
+                                <img
+                                    src="/novo_logo.png"
+                                    alt="Farol Dev. Logo"
+                                    className="w-[450px] h-auto md:w-[530px] object-contain"
+                                    // moved slightly up and nudged a tiny bit more to the right (vertical unchanged)
+                                    // scaled slightly larger without changing surrounding layout
+                                    style={{ transform: 'translateX(40px) translateY(120px) scale(1.06)', transformOrigin: 'left center', transition: 'transform 0.3s, width 0.3s' }}
+                                />
+                            </div>
+                        </div>
+                        {/* Parte 2: Texto e botões unificados */}
+                        <div ref={box1Ref} className="col-span-2 box1-animate flex flex-col justify-start items-start px-6 py-10 translate-x-8 translate-y-8 md:translate-x-16 md:translate-y-16 lg:translate-x-24 lg:translate-y-24 transition-transform duration-300" id="box1" style={{ position: 'relative', zIndex: 10, background: 'linear-gradient(135deg, #ff4d4d, #4b0082, #00008b, #000080)', padding: '2rem', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+                            <div className="box1-inner w-full">
+                                <h2 className="text-lg md:text-xl font-medium text-white mb-4" style={{ background: 'rgba(255, 255, 255, 0.2)', padding: '0.5rem 1rem', borderRadius: '999px', display: 'inline-block' }}>Soluções em tecnologia.</h2>
+
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 mt-12 bg-gradient-to-r from-white to-white/70 bg-clip-text text-white/90 relative" style={{ marginTop: '3rem' }}>
+                                    <span className="relative block w-full h-[1.2em] whitespace-nowrap">
                                         {heroMessages.map((message, index) => (
                                             <span
                                                 key={index}
-                                                className={`absolute top-0 left-0 transition-opacity duration-1000 ${heroIndex === index ? "opacity-100" : "opacity-0"}`}
+                                                className={`absolute left-0 top-0 w-full transition-opacity duration-700 whitespace-nowrap ${
+                                                    heroIndex === index ? 'opacity-100' : 'opacity-0'
+                                                }`}
+                                                style={{ minHeight: '1em', fontSize: '1.25em' }}
                                             >
                                                 {message}
                                             </span>
                                         ))}
-                                    </h1>
-                                    {/* Subtexto mais abaixo do título, com espaçamento independente */}
-                                    <p className="text-lg md:text-xl text-white leading-relaxed mt-24 mb-4">
-                                        Desenvolvemos automações robustas em Python focadas em reduzir retrabalho e acelerar processos operacionais e financeiros.
-                                    </p>
-                                    {/* Botões ainda mais abaixo, com espaçamento maior que o subtexto */}
-                                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-20">
-                                        <Link href="/solucoes">
-                                            <Button size="lg" className="gap-2">
-                                                Ver Soluções
-                                                <ArrowRight className="w-4 h-4" />
-                                            </Button>
-                                        </Link>
-                                        <Link href="/contato">
-                                            <Button
-                                                size="lg"
-                                                variant="outline"
-                                                className="rounded-full bg-green-100 backdrop-blur-xl border border-green-200 px-4 py-2 text-black hover:bg-green-100/90 transition-all duration-300 ease-in-out"
-                                            >
-                                                Fale Conosco
-                                            </Button>
-                                        </Link>
-                                    </div>
+                                    </span>
+                                </h1>
+                                <p className="text-sm md:text-lg text-white/90 leading-relaxed mb-6 mt-28" style={{ background: 'rgba(255, 255, 255, 0.2)', padding: '1rem', borderRadius: '8px' }}>
+                                    Desenvolvemos automações robustas focadas em reduzir retrabalho<br />
+                                    e acelerar processos operacionais e financeiros.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start mt-10">
+                                    <a href="/solucoes">
+                                        <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 gap-2">
+                                            Ver Soluções
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right w-4 h-4" aria-hidden="true">
+                                                <path d="M5 12h14"></path>
+                                                <path d="m12 5 7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </a>
+                                    <a href="/contato">
+                                        <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:text-accent-foreground h-11 rounded-full bg-green-100 backdrop-blur-xl border border-green-200 px-4 py-2 text-black hover:bg-green-100/90 transition-all duration-300 ease-in-out">
+                                            Fale Conosco
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {/* Botão animado para scroll */}
-                    <div className="flex justify-center mt-10">
+                    <div className="flex justify-center mt-20">
                         <button
+                            style={{ marginTop: '6rem' }}
                             onClick={() => {
                                 const target = document.getElementById('porque-farol-dev');
                                 if (target) {
@@ -262,7 +341,8 @@ const Index = () => {
                     <div
                         className="w-full backdrop-blur-md shadow-lg"
                         style={{
-                            background: "linear-gradient(180deg, #071833 0%, #0c1f3f 18%, #123558 36%, #17606a 54%, #1e8a68 72%, #27a773 88%, #2f9f7c 100%)",
+                            // same gradient but with darker green tones at the end
+                            background: "linear-gradient(180deg, #071833 0%, #0c1f3f 18%, #123558 36%, #17606a 54%, #16634f 72%, #1c7f5b 88%, #1f6f5f 100%)",
                         }}
                     >
                         <div className="container mx-auto max-w-7xl px-6 py-12 block">
@@ -297,13 +377,13 @@ const Index = () => {
                             </div>
                         </div>
 
-                        <div className="container mx-auto max-w-7xl px-6 py-12">
+                        <div className="container mx-auto max-w-7xl px-6 py-28">
                             <div className="text-center mb-12 -mt-6 md:-mt-8">
                                 <h2 className="text-4xl md:text-[2.75rem] font-bold mb-4 text-white">O que podemos automatizar?</h2>
                                 <p className="text-lg text-white/90 max-w-2xl mx-auto">Automatizações sob medida que liberam sua equipe para o que importa, enquanto garantem produtividade e consistência.</p>
                             </div>
 
-                            <div className="automation-grid pb-4">
+                            <div className="automation-grid pb-20">
                                 {automationServices.map((service, index) => {
                                     const Icon = service.icon;
                                     return (
@@ -327,25 +407,32 @@ const Index = () => {
                     </div>
                 </section>
 
-                <section
-                    className="section-reveal bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 py-10 flex items-center justify-center text-center w-full mt-12"
-                >
-                    <div className="container mx-auto max-w-4xl px-6">
-                        <h2 className="text-5xl font-bold text-white animate-fade-in">
-                            <span className="text-6xl md:text-7xl font-extrabold">120+</span> Empresas Contratantes
-                        </h2>
-                        <p className="text-lg text-black mt-4">Já confiaram em nossos serviços para transformar seus processos.</p>
-                    </div>
-                </section>
+                {/* Espaçador branco entre 'O que podemos automatizar' e a faixa 120+ Empresas */}
+                <div className="w-full bg-white h-20" />
 
-                <section className="section-reveal py-8 bg-gray-100">
+                {/* 120+ Empresas Contratantes - mantida fora do contêiner escuro */}
+                <div className="w-full">
+                    <section
+                        className="section-reveal py-10 flex items-center justify-center text-center w-full mt-12"
+                        style={{ background: 'linear-gradient(135deg, #ff4d4d, #4b0082, #00008b, #000080)' }}
+                    >
+                        <div className="container mx-auto max-w-4xl px-6">
+                            <h2 className="text-5xl font-bold text-white animate-fade-in">
+                                <span className="text-6xl md:text-7xl font-extrabold">120+</span> Empresas Contratantes
+                            </h2>
+                            <p className="text-lg text-white/90 mt-4">Já confiaram em nossos serviços para transformar seus processos.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <section className="section-reveal pt-8 pb-20 bg-gray-100">
                     <div
                         className="relative container mx-auto max-w-8xl rounded-lg bg-gray-300/80 backdrop-blur-md shadow-lg section-container-spacing"
-                        style={{ padding: "4rem" }}
+                        // keep vertical padding large but horizontal padding fixed on small screens
+                        style={{ padding: "4rem 1rem 8rem 1rem" }}
                     >
                         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Linha do Tempo de Automatização</h2>
                         <div className="relative flex flex-col md:flex-row items-center justify-center" style={{ gap: "12px" }}>
-                            <div className="hidden md:block absolute top-1/2 w-full border-t-4 border-blue-200"></div>
 
                             {[
                                 { icon: Lightbulb, title: "Entendimento do processo", description: "Compreender como o processo funciona, quais ferramentas são utilizadas e onde estão os principais gargalos." },
@@ -356,13 +443,13 @@ const Index = () => {
                             ].map((step) => (
                                 <div
                                     key={step.title}
-                                    className="relative z-10 bg-gradient-to-br from-purple-600 via-blue-500 to-blue-400 shadow-xl rounded-lg p-6 text-center mb-6 md:mb-0 mx-2 flex flex-col justify-between transform transition-transform hover:scale-105 hover:shadow-2xl"
-                                    style={{ width: "240px", height: "360px", flex: "none" }}
+                                    className="timeline-card relative z-10 shadow-xl rounded-3xl p-6 text-center mb-6 md:mb-0 mx-2 flex flex-col justify-between transform transition-transform hover:scale-105 hover:shadow-2xl w-full md:w-[240px] h-auto md:h-[360px] box-border bg-opaque-solucoes backdrop-blur-md"
+                                    style={{ flex: "none" }}
                                 >
                                     <div className="flex justify-center mb-4">
                                         <step.icon className="w-8 h-8 text-white" />
                                     </div>
-                                    <h3 className="text-base font-semibold mb-1 text-white p-3 rounded-xl self-stretch h-14 flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-700">
+                                    <h3 className="timeline-card__title text-base font-semibold mb-1 text-white p-3 rounded-xl self-stretch h-14 flex items-center justify-center">
                                         {step.title}
                                     </h3>
                                     <p className="text-sm text-white/90 mt-1 flex-1 flex items-center justify-center font-sans leading-relaxed">
@@ -374,10 +461,10 @@ const Index = () => {
                     </div>
                 </section>
 
-                <div className="section-reveal container mx-auto max-w-6xl text-center mt-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-8">Ferramentas que utilizamos</h2>
+                <div className="section-reveal container mx-auto max-w-6xl text-center mt-20 md:mt-24">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-8">Ferramentas que utilizamos</h2>
                 </div>
-                <section className="section-reveal py-8 bg-gray-900 mt-4">
+                <section className="section-reveal py-8 bg-gray-900 mt-24 md:mt-28">
                     <div className="scrolling-container">
                         <div className="scrolling-icons">
                             {["/BI_ICON.png", "/PY_ICON.png", "/SQL_ICON.png", "/JS_icon.png", "/TS_icon.png", "/HTML_icon.png", "/fabric_icon.png", "/lovable_icon.png"].map((src) => (
@@ -390,15 +477,15 @@ const Index = () => {
                     </div>
                 </section>
 
-                <section className="section-reveal py-20 px-4">
-                    <div className="container mx-auto max-w-4xl">
-                        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+                <section className="section-reveal py-20 px-4 mt-40">
+                    <div className="w-full mx-auto max-w-full">
+                        <Card className="bg-gradient-to-br from-blue-950/90 via-blue-900/90 to-blue-800/90 backdrop-blur-md border border-blue-900/50 rounded-none shadow-lg hover:shadow-xl transition-all duration-300 mx-0">
                             <CardContent className="p-12 text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold mb-4">Pronto para automatizar seus processos?</h2>
-                                <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Pronto para automatizar seus processos?</h2>
+                                <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
                                     A tecnologia resolvendo dores reais. Você cuida da estratégia; a automação cuida do resto.
                                 </p>
-                                <Button size="lg" className="gap-2" asChild>
+                                <Button size="lg" variant="neon" className="gap-2 !border-0 bg-gradient-to-r from-emerald-400 to-green-600 text-white shadow-[0_10px_40px_rgba(16,185,129,0.18)] hover:brightness-110" asChild>
                                     <Link href="/contato">
                                         Fale com a gente
                                         <ArrowRight className="w-4 h-4" />

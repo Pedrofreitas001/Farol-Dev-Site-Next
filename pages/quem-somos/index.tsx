@@ -41,23 +41,31 @@ const QuemSomos = () => {
                 publisherLogo={`${siteUrl}/logo_2.png`}
                 description={description}
             />
-            <div className="min-h-screen">
+            <div className="min-h-screen flex flex-col relative">
+                <div className="absolute inset-0 -z-20 bg-opaque-solucoes backdrop-blur-md" />
                 <Navbar />
 
-                <section className="pt-16 pb-8 px-4 bg-gradient-to-b from-background via-background to-muted/20">
-                    <div className="container mx-auto max-w-6xl text-center">
-                        <img src="/quem_somos.png" alt="Quem Somos" className="max-w-full max-h-[500px] mx-auto rounded-lg shadow-md" />
-                    </div>
-                </section>
+                <main className="flex-1">
 
-                <section className="py-12 px-4">
-                    <div className="container mx-auto max-w-4xl text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">Quem Somos</h1>
-                        <p className="text-lg text-muted-foreground leading-relaxed">
-                            Somos uma empresa dedicada a criar soluções inovadoras e personalizadas para automatizar processos, reduzir retrabalho e acelerar operações. Nossa missão é transformar desafios em oportunidades, utilizando tecnologia de ponta para entregar resultados excepcionais aos nossos clientes.
-                        </p>
-                    </div>
-                </section>
+                    <div className="w-full h-36 bg-transparent" />
+
+                    <section className="pt-6 pb-12 px-4">
+                        <div className="container mx-auto max-w-4xl">
+                            <div className="relative p-10 md:p-14 min-h-[360px] md:min-h-[460px] flex flex-col">
+                                <div className="absolute inset-0 -z-10 mx-0 my-0 rounded-xl md:rounded-2xl bg-black/30 backdrop-blur-sm" />
+                                <div className="card-header mb-3 pb-2 border-b border-white/12">
+                                    <h2 className="text-3xl md:text-4xl font-bold text-white text-center">Quem Somos</h2>
+                                </div>
+
+                                <div className="card-body mt-0 flex-1 flex items-center justify-center">
+                                    <p className="text-xl md:text-2xl text-white/85 leading-relaxed max-w-3xl mx-auto text-center">
+                                        Somos uma empresa dedicada a criar soluções inovadoras e personalizadas para automatizar processos, reduzir retrabalho e acelerar operações. Nossa missão é transformar desafios em oportunidades, utilizando tecnologia de ponta para entregar resultados excepcionais aos nossos clientes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
 
                 <Footer />
             </div>

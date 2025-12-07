@@ -117,9 +117,9 @@ const Solucoes = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="pt-32 pb-20 px-4 w-full bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700">
+                <section className="pt-32 pb-20 px-4 w-full bg-opaque-solucoes">
                     <div className="container mx-auto max-w-6xl">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="text-center max-w-3xl mx-auto mb-24">
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">Nossas Soluções</h1>
                             <p className="text-xl text-white/90">
                                 Automações robustas que resolvem problemas reais em processos financeiros, administrativos e contábeis.
@@ -130,7 +130,7 @@ const Solucoes = () => {
                             {solutions.map((solution) => (
                                 <Card
                                     key={solution.title}
-                                    className="bg-gradient-to-br from-blue-900/90 via-gray-900/80 to-blue-800/70 backdrop-blur-md shadow-xl rounded-3xl text-white transition-all duration-300 border-2 border-transparent hover:border-blue-400 hover:shadow-blue-400/30 px-4 py-5"
+                                    className="bg-gradient-to-br from-gray-800/95 via-gray-700/90 to-blue-950/95 backdrop-blur-md shadow-xl rounded-3xl text-white transition-all duration-300 border-2 border-transparent hover:border-blue-400 hover:shadow-blue-400/30 px-4 py-5"
                                 >
                                     <CardHeader className="pb-2">
                                         <div className="flex items-start justify-between mb-2">
@@ -159,19 +159,23 @@ const Solucoes = () => {
                             ))}
                         </div>
 
-                        <div className="mt-60"></div>
-                        <Card className="bg-gradient-to-br from-purple-900/90 via-indigo-900/95 to-blue-900/80 text-white rounded-2xl">
-                            <CardContent className="p-12 text-center">
-                                <h2 className="text-3xl font-bold mb-4">Não encontrou o que procura?</h2>
-                                <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+                        <div className="mt-40 md:mt-96"></div>
+                        <Card className="relative overflow-hidden bg-gradient-to-br from-red-700/60 via-blue-800/85 to-blue-950/95 backdrop-blur-md border border-blue-900/50 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div className="absolute inset-0 -z-10 rounded-3xl bg-black/30 backdrop-blur-sm" />
+                            <CardContent className="p-6 text-center flex flex-col items-center gap-4">
+                                <div className="w-12 h-1 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 mb-2" />
+                                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-1 text-white">Não encontrou o que procura?</h2>
+                                <p className="text-lg text-white/85 mb-4 max-w-2xl mx-auto">
                                     Desenvolvemos automações sob medida para qualquer processo. Entre em contato e vamos entender sua necessidade específica.
                                 </p>
-                                <Button size="lg" className="gap-2" asChild>
-                                    <Link href="/contato">
-                                        Falar com especialista
-                                        <ArrowRight className="w-4 h-4" />
-                                    </Link>
-                                </Button>
+                                <div className="flex items-center gap-4">
+                                    <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full px-6 py-3 shadow-md hover:brightness-105 transition">
+                                        <Link href="/contato" className="flex items-center gap-2">
+                                            Falar com especialista
+                                            <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>

@@ -211,6 +211,28 @@
     flex-shrink: 0;
 }
 
+/* hide scrollbar utility used for horizontal timeline */
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* timeline scroll padding so first/last cards are not cut on small screens */
+.timeline-scroll {
+    padding-inline: calc(50vw - 120px);
+    scroll-padding-inline: calc(50vw - 120px);
+}
+
+@media (min-width: 768px) {
+    .timeline-scroll {
+        padding-inline: 0;
+        scroll-padding-inline: 0;
+    }
+}
+
 .hero-section {
     position: relative;
     --hero-left-width: clamp(310px, 32vw, 480px);
@@ -377,6 +399,21 @@
     background: linear-gradient(120deg, rgba(82, 246, 205, 0.9), rgba(255, 255, 255, 0.3));
 }
 
+/* Reusable opaque gradient used on the `Solucoes` page.
+   Use the class `bg-opaque-solucoes` on any element to apply the same
+   opaque red→blue gradient background for consistent layout. */
+.bg-opaque-solucoes {
+    background-image: linear-gradient(135deg, rgba(220,38,38,0.95) 0%, rgba(30,58,138,0.95) 50%, rgba(3,7,23,0.95) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Optional dark-mode tweak for the same class (keeps gradient but slightly darker)
+   This will be applied when `.dark` is present on the root element. */
+.dark .bg-opaque-solucoes {
+    background-image: linear-gradient(135deg, rgba(160,30,30,0.92) 0%, rgba(12,28,72,0.94) 50%, rgba(2,6,18,0.96) 100%);
+}
+
 .automation-tile__description {
     font-size: 0.98rem;
     color: rgba(248, 250, 252, 0.75);
@@ -408,6 +445,32 @@
     border-radius: 999px;
     background: rgba(75, 248, 219, 0.9);
     box-shadow: 0 0 10px rgba(75, 248, 219, 0.6);
+}
+
+/* Smaller variant used on the contact page to reduce visual footprint */
+.automation-tile.contact-sm {
+    padding: 1rem 0.9rem 1.1rem;
+    border-radius: 0.85rem;
+    min-height: auto;
+    box-shadow: 0 8px 20px rgba(7, 16, 28, 0.18);
+    display: block;
+}
+
+.automation-tile.contact-sm .automation-tile__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.automation-tile.contact-sm .automation-tile__title {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+.automation-tile.contact-sm .automation-tile__description {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
 }
 
 .why-cards {
@@ -502,5 +565,128 @@
 @media (max-width: 767px) {
     .why-card {
         min-height: auto;
+    }
+}
+
+/* Timeline card responsive rules: keep vertical space on desktop, full-width and auto height on mobile */
+.timeline-card {
+    position: relative;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    min-height: 320px;
+    box-sizing: border-box;
+    /* use same gradient as box1 in the hero */
+    background: linear-gradient(135deg, #ff4d4d 0%, #4b0082 33%, #00008b 66%, #000080 100%);
+    color: rgba(255,255,255,0.92);
+}
+
+/* Typography improvements for timeline cards (more readable, slightly larger) */
+.timeline-card {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.timeline-card__title {
+    /* slightly smaller header font for a more compact look */
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    padding: 0.9rem 1rem;
+}
+
+.timeline-card p {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.90);
+    margin: 0.25rem 0 0;
+    font-weight: 400;
+}
+
+.timeline-card .w-8 {
+    /* if lucide icons use w-8 class, slightly larger */
+    width: 36px !important;
+    height: 36px !important;
+}
+
+@media (max-width: 767px) {
+    .timeline-card__title {
+        font-size: 1.05rem;
+        padding: 0.75rem 0.9rem;
+    }
+    .timeline-card p {
+        font-size: 1rem;
+    }
+}
+
+.timeline-card::before {
+    content: "";
+    position: absolute;
+    inset: -18px -8px;
+    border-radius: 1.2rem;
+    background: linear-gradient(130deg, rgba(0,0,0,0.06), rgba(255,255,255,0.02));
+    transform: rotate(-3deg);
+    z-index: -1;
+    filter: blur(0.5px);
+    opacity: 0.8;
+}
+
+/* 3D header effect for timeline card titles */
+.timeline-card__title {
+    position: relative;
+    /* brighter, cleaner translucent background */
+    background: rgba(255,255,255,0.12);
+    border: none;
+    box-shadow: 0 2px 6px rgba(2,6,23,0.06);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    overflow: visible;
+    z-index: 5;
+    transition: box-shadow 150ms ease, transform 150ms ease;
+    border-radius: 0.75rem;
+    padding: 0.6rem 0.9rem;
+}
+
+/* Remove decorative highlights for a cleaner look */
+.timeline-card__title::before,
+.timeline-card__title::after {
+    display: none;
+}
+
+.timeline-card__title span,
+.timeline-card__title > * {
+    position: relative;
+    z-index: 6;
+}
+
+@media (max-width: 767px) {
+    .timeline-card {
+        min-height: auto;
+        padding: 1rem;
+    }
+}
+
+/* subtle float animation for box1 inner content */
+.box1-animate .box1-inner {
+    /* slide in from right to left when the element appears */
+    animation: box1-slide-in 700ms cubic-bezier(.22,.9,.34,1) both;
+    will-change: transform, opacity;
+}
+
+@keyframes box1-slide-in {
+    0% {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .box1-animate .box1-inner {
+        animation: none;
     }
 }
