@@ -54,7 +54,7 @@ const Contato = () => {
             if (response.ok && result.success !== false) {
                 toast({
                     title: "Mensagem enviada!",
-                    description: result.message ?? "Entraremos em contato em breve.",
+                    description: result.message ?? "Entraremos em contato Faroldev@gmail.com.",
                 });
                 setFormData({ name: "", email: "", phone: "", message: "" });
             } else {
@@ -113,70 +113,70 @@ const Contato = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="pt-32 pb-20 px-4">
-                    <div className="container mx-auto max-w-5xl">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Vamos conversar?</h1>
-                            <p className="text-xl text-muted-foreground">
-                                Entre em contato conosco e descubra como podemos automatizar seus processos.
-                            </p>
+                <section className="pt-32 pb-32 px-4 w-full bg-opaque-solucoes">
+                    <div className="container mx-auto max-w-6xl">
+                        <div className="text-center max-w-3xl mx-auto mb-28">
+                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white">
+                                Vamos conversar?
+                            </h1>
+                            <p className="text-xl text-white/90">Entre em contato conosco e descubra como podemos automatizar seus processos.</p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8">
-                            <div className="space-y-6">
-                                <Card>
-                                    <CardContent className="p-6">
+                        <div className="grid md:grid-cols-5 gap-8 md:items-center">
+                            <div className="space-y-6 md:col-span-2">
+                                <Card className="automation-tile contact-sm bg-transparent border-0">
+                                    <CardContent className="p-4">
                                         <div className="flex items-start gap-4">
-                                            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                                                <Mail className="w-6 h-6 text-primary" />
+                                            <div className="automation-tile__icon shadow-[0_0_18px_rgba(75,248,219,0.18)] flex-shrink-0">
+                                                <Mail className="w-4 h-4" />
                                             </div>
-                                            <div>
-                                                <h3 className="font-semibold mb-2">Email</h3>
-                                                <p className="text-muted-foreground">Em breve</p>
+                                            <div className="flex-1">
+                                                <h3 className="automation-tile__title">Email</h3>
+                                                <p className="automation-tile__description">Faroldev@gmail.com</p>
                                             </div>
                                         </div>
                                     </CardContent>
                                 </Card>
 
-                                <Card>
-                                    <CardContent className="p-6">
+                                <Card className="automation-tile contact-sm bg-transparent border-0">
+                                    <CardContent className="p-4">
                                         <div className="flex items-start gap-4">
-                                            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                                                <Phone className="w-6 h-6 text-primary" />
+                                            <div className="automation-tile__icon shadow-[0_0_18px_rgba(75,248,219,0.18)] flex-shrink-0">
+                                                <Phone className="w-4 h-4" />
                                             </div>
-                                            <div>
-                                                <h3 className="font-semibold mb-2">Telefone</h3>
-                                                <p className="text-muted-foreground">Em breve</p>
+                                            <div className="flex-1">
+                                                <h3 className="automation-tile__title">Telefone</h3>
+                                                <p className="automation-tile__description">Em breve</p>
                                             </div>
                                         </div>
                                     </CardContent>
                                 </Card>
 
-                                <Card>
-                                    <CardContent className="p-6">
+                                <Card className="automation-tile contact-sm bg-transparent border-0">
+                                    <CardContent className="p-4">
                                         <div className="flex items-start gap-4">
-                                            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                                                <MessageSquare className="w-6 h-6 text-primary" />
+                                            <div className="automation-tile__icon shadow-[0_0_18px_rgba(75,248,219,0.18)] flex-shrink-0">
+                                                <MessageSquare className="w-4 h-4" />
                                             </div>
-                                            <div>
-                                                <h3 className="font-semibold mb-2">Horário de Atendimento</h3>
-                                                <p className="text-muted-foreground">Segunda a Sexta: 9h às 18h</p>
+                                            <div className="flex-1">
+                                                <h3 className="automation-tile__title">Horário de Atendimento</h3>
+                                                <p className="automation-tile__description">Segunda a Sexta: 9h às 18h</p>
                                             </div>
                                         </div>
                                     </CardContent>
                                 </Card>
                             </div>
 
-                            <Card>
-                                <CardContent className="p-6">
+                            <Card className="bg-[#021121]/70 border border-cyan-400/20 backdrop-blur-md shadow-[0_20px_60px_rgba(2,8,23,0.6)] md:col-span-2 md:col-start-4">
+                                <CardContent className="p-10">
                                     <form onSubmit={handleSubmit} className="space-y-6">
                                         <div className="space-y-2">
-                                            <Label htmlFor="name">Nome completo</Label>
-                                            <Input id="name" name="name" placeholder="Seu nome" value={formData.name} onChange={handleChange} required />
+                                            <Label htmlFor="name" className="text-white/95 text-base" style={{ textShadow: '0 1px 10px rgba(255,255,255,0.06)' }}>Nome completo</Label>
+                                            <Input id="name" name="name" placeholder="Seu nome" value={formData.name} onChange={handleChange} required className="w-full h-14 bg-[#071226] border-[#0ea5e9]/40 text-white placeholder:text-white/50 focus:ring-2 focus:ring-[#0ea5e9]/50 shadow-[0_0_12px_rgba(14,165,233,0.06)] text-base" />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="email">Email</Label>
+                                            <Label htmlFor="email" className="text-white/95 text-base" style={{ textShadow: '0 1px 10px rgba(255,255,255,0.06)' }}>Email</Label>
                                             <Input
                                                 id="email"
                                                 name="email"
@@ -185,11 +185,12 @@ const Contato = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 required
+                                                className="w-full h-14 bg-[#071226] border-[#0ea5e9]/40 text-white placeholder:text-white/50 focus:ring-2 focus:ring-[#0ea5e9]/50 shadow-[0_0_12px_rgba(14,165,233,0.06)] text-base"
                                             />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="phone">Telefone</Label>
+                                            <Label htmlFor="phone" className="text-white/95 text-base" style={{ textShadow: '0 1px 10px rgba(255,255,255,0.06)' }}>Telefone</Label>
                                             <Input
                                                 id="phone"
                                                 name="phone"
@@ -197,23 +198,25 @@ const Contato = () => {
                                                 placeholder="(11) 99999-9999"
                                                 value={formData.phone}
                                                 onChange={handleChange}
+                                                className="w-full h-14 bg-[#071226] border-[#0ea5e9]/40 text-white placeholder:text-white/50 focus:ring-2 focus:ring-[#0ea5e9]/50 shadow-[0_0_12px_rgba(14,165,233,0.06)] text-base"
                                             />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="message">Mensagem</Label>
+                                            <Label htmlFor="message" className="text-white/95 text-base" style={{ textShadow: '0 1px 10px rgba(255,255,255,0.06)' }}>Mensagem</Label>
                                             <Textarea
                                                 id="message"
                                                 name="message"
                                                 placeholder="Conte-nos sobre o processo que você gostaria de automatizar..."
-                                                rows={5}
+                                                rows={6}
                                                 value={formData.message}
                                                 onChange={handleChange}
                                                 required
+                                                className="w-full min-h-[160px] bg-[#071226] border-[#0ea5e9]/40 text-white placeholder:text-white/50 focus:ring-2 focus:ring-[#0ea5e9]/50 shadow-[0_0_12px_rgba(14,165,233,0.06)] text-base"
                                             />
                                         </div>
 
-                                        <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+                                        <Button type="submit" className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:brightness-105 h-12 rounded-md px-8 w-full bg-gradient-to-r from-cyan-400 to-indigo-500 text-black shadow-[0_8px_30px_rgba(14,165,233,0.12)] hover:shadow-[0_20px_60px_rgba(99,102,241,0.18)]" size="lg" disabled={isSubmitting}>
                                             {isSubmitting ? "Enviando..." : "Enviar mensagem"}
                                         </Button>
                                     </form>

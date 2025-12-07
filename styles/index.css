@@ -399,6 +399,21 @@
     background: linear-gradient(120deg, rgba(82, 246, 205, 0.9), rgba(255, 255, 255, 0.3));
 }
 
+/* Reusable opaque gradient used on the `Solucoes` page.
+   Use the class `bg-opaque-solucoes` on any element to apply the same
+   opaque red→blue gradient background for consistent layout. */
+.bg-opaque-solucoes {
+    background-image: linear-gradient(135deg, rgba(220,38,38,0.95) 0%, rgba(30,58,138,0.95) 50%, rgba(3,7,23,0.95) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Optional dark-mode tweak for the same class (keeps gradient but slightly darker)
+   This will be applied when `.dark` is present on the root element. */
+.dark .bg-opaque-solucoes {
+    background-image: linear-gradient(135deg, rgba(160,30,30,0.92) 0%, rgba(12,28,72,0.94) 50%, rgba(2,6,18,0.96) 100%);
+}
+
 .automation-tile__description {
     font-size: 0.98rem;
     color: rgba(248, 250, 252, 0.75);
@@ -430,6 +445,32 @@
     border-radius: 999px;
     background: rgba(75, 248, 219, 0.9);
     box-shadow: 0 0 10px rgba(75, 248, 219, 0.6);
+}
+
+/* Smaller variant used on the contact page to reduce visual footprint */
+.automation-tile.contact-sm {
+    padding: 1rem 0.9rem 1.1rem;
+    border-radius: 0.85rem;
+    min-height: auto;
+    box-shadow: 0 8px 20px rgba(7, 16, 28, 0.18);
+    display: block;
+}
+
+.automation-tile.contact-sm .automation-tile__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.automation-tile.contact-sm .automation-tile__title {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+.automation-tile.contact-sm .automation-tile__description {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
 }
 
 .why-cards {
@@ -537,7 +578,7 @@
     box-sizing: border-box;
     /* use same gradient as box1 in the hero */
     background: linear-gradient(135deg, #ff4d4d 0%, #4b0082 33%, #00008b 66%, #000080 100%);
-    color: #ffffff;
+    color: rgba(255,255,255,0.92);
 }
 
 /* Typography improvements for timeline cards (more readable, slightly larger) */
@@ -558,7 +599,7 @@
 .timeline-card p {
     font-size: 0.98rem;
     line-height: 1.65;
-    color: rgba(255,255,255,0.95);
+    color: rgba(255,255,255,0.90);
     margin: 0.25rem 0 0;
     font-weight: 400;
 }
@@ -594,53 +635,29 @@
 /* 3D header effect for timeline card titles */
 .timeline-card__title {
     position: relative;
-    /* very subtle translucent background for a minimal look */
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 4px 8px rgba(2,6,23,0.08), inset 0 -2px 6px rgba(0,0,0,0.06);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    /* brighter, cleaner translucent background */
+    background: rgba(255,255,255,0.12);
+    border: none;
+    box-shadow: 0 2px 6px rgba(2,6,23,0.06);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     overflow: visible;
     z-index: 5;
-    transition: box-shadow 200ms ease, transform 200ms ease;
+    transition: box-shadow 150ms ease, transform 150ms ease;
+    border-radius: 0.75rem;
+    padding: 0.6rem 0.9rem;
 }
 
-.timeline-card__title::before {
-    /* very light top highlight */
-    content: "";
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 6px;
-    height: 6px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.03));
-    border-radius: 6px;
-    opacity: 0.35;
-    pointer-events: none;
-}
-
+/* Remove decorative highlights for a cleaner look */
+.timeline-card__title::before,
 .timeline-card__title::after {
-    /* subtle bottom rim to hint depth */
-    content: "";
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 6px;
-    height: 3px;
-    background: rgba(0,0,0,0.08);
-    border-radius: 3px;
-    opacity: 0.35;
-    pointer-events: none;
+    display: none;
 }
 
 .timeline-card__title span,
 .timeline-card__title > * {
     position: relative;
     z-index: 6;
-}
-
-.timeline-card__title {
-    text-shadow: 0 1px 0 rgba(255,255,255,0.02), 0 1px 6px rgba(0,0,0,0.12);
 }
 
 @media (max-width: 767px) {
