@@ -33,6 +33,7 @@ const Index = () => {
     const heroDescription = "Automatizamos processos financeiros e operacionais com soluções em Python, RPA e integrações personalizadas para empresas que precisam reduzir retrabalho e erros manuais.";
     const heroMessages = ["Automatize processos.", "Elimine erros manuais."];
     const [heroIndex, setHeroIndex] = useState(0);
+
     useEffect(() => {
         const interval = setInterval(() => {
             setHeroIndex((prev) => (prev + 1) % heroMessages.length);
@@ -40,34 +41,7 @@ const Index = () => {
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        if (typeof window === "undefined") {
-            return;
-        }
-        const elements = Array.from(document.querySelectorAll<HTMLElement>(".section-reveal"));
-        if (!elements.length) {
-            return;
-        }
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("is-visible");
-                    }
-                });
-            },
-            {
-                threshold: 0.18,
-                rootMargin: "0px 0px -5% 0px",
-            }
-        );
 
-        elements.forEach((el) => observer.observe(el));
-
-        return () => {
-            observer.disconnect();
-        };
-    }, []);
     const faqEntries = [
         {
             question: "Quais processos vocês conseguem automatizar?",
@@ -211,47 +185,76 @@ const Index = () => {
             <div className="min-h-screen">
                 <Navbar />
 
-                <section className="hero-section relative overflow-hidden pt-16 pb-0 px-4 bg-white mt-6 md:mt-10">
-                    <div className="container mx-auto max-w-6xl relative z-10">
-                        <div className="max-w-6xl mx-auto mt-6 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                            <div className="flex flex-col md:flex-row items-start gap-12 text-left">
+                <section className="pt-20 pb-56 px-4 bg-white">
+                    <div className="container mx-auto max-w-[1800px] px-2">
+                        <div className="w-full max-w-screen-xl mx-auto mb-12 px-2">
+                            <div className="flex flex-col lg:flex-row items-start lg:justify-between gap-8 xl:gap-16 text-left">
                                 <img
                                     src="/logo_2.png"
                                     alt="Farol Dev. Logo"
-                                    className="w-[300px] h-auto md:w-[400px] object-contain md:-ml-20 lg:-ml-32 xl:-ml-40 md:mt-2"
+                                    className="w-[355px] h-auto md:w-[440px] object-contain md:-ml-6 lg:-ml-10 xl:-ml-12 md:mt-2"
                                 />
 
-                                <div className="flex-1 md:pl-16 md:mt-16 p-10 md:mr-[-115px] md:w-[calc(100%+100px)] min-h-[420px] flex flex-col justify-center">
-                                    <div className="inline-flex w-fit px-4 py-2 bg-primary/40 rounded-full -mt-12 mb-6">
+                                <div className="flex flex-col h-full flex-1 md:pl-10 md:mt-8 bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700 pt-14 pb-20 px-6 rounded-lg md:mr-0 md:w-full lg:w-full xl:w-full 2xl:w-full">
+                                    <div className="inline-block w-fit mt-0 px-2 py-1 bg-primary/40 rounded-full mb-4">
                                         <span className="text-sm font-medium text-blue-400">Automação Inteligente para Empresas Modernas</span>
                                     </div>
-                                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-white">
-                                        <span key={heroMessages[heroIndex]} className="hero-text-transition">
-                                            {heroMessages[heroIndex]}
-                                        </span>
+                                    {/* Título animado mais alto, mas com espaçamento próprio */}
+                                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 mt-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-white relative">
+                                        {heroMessages.map((message, index) => (
+                                            <span
+                                                key={index}
+                                                className={`absolute top-0 left-0 transition-opacity duration-1000 ${heroIndex === index ? "opacity-100" : "opacity-0"}`}
+                                            >
+                                                {message}
+                                            </span>
+                                        ))}
                                     </h1>
-                                    <p className="text-lg md:text-xl text-white mt-5 mb-8 leading-relaxed">
+                                    {/* Subtexto mais abaixo do título, com espaçamento independente */}
+                                    <p className="text-lg md:text-xl text-white leading-relaxed mt-24 mb-4">
                                         Desenvolvemos automações robustas em Python focadas em reduzir retrabalho e acelerar processos operacionais e financeiros.
                                     </p>
-                                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-8">
-                                        <Button size="lg" className="gap-2" asChild>
-                                            <Link href="/solucoes">
+                                    {/* Botões ainda mais abaixo, com espaçamento maior que o subtexto */}
+                                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-20">
+                                        <Link href="/solucoes">
+                                            <Button size="lg" className="gap-2">
                                                 Ver Soluções
                                                 <ArrowRight className="w-4 h-4" />
-                                            </Link>
-                                        </Button>
-                                        <Button
-                                            size="lg"
-                                            variant="outline"
-                                            className="rounded-full bg-green-100 backdrop-blur-xl border border-green-200 px-4 py-2 text-black hover:bg-green-100/90 transition-all duration-300 ease-in-out"
-                                            asChild
-                                        >
-                                            <Link href="/contato">Fale Conosco</Link>
-                                        </Button>
+                                            </Button>
+                                        </Link>
+                                        <Link href="/contato">
+                                            <Button
+                                                size="lg"
+                                                variant="outline"
+                                                className="rounded-full bg-green-100 backdrop-blur-xl border border-green-200 px-4 py-2 text-black hover:bg-green-100/90 transition-all duration-300 ease-in-out"
+                                            >
+                                                Fale Conosco
+                                            </Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    {/* Botão animado para scroll */}
+                    <div className="flex justify-center mt-10">
+                        <button
+                            onClick={() => {
+                                const target = document.getElementById('porque-farol-dev');
+                                if (target) {
+                                    const header = document.querySelector('header');
+                                    const headerHeight = header ? header.offsetHeight : 80;
+                                    const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                                }
+                            }}
+                            className="animate-bounce bg-gradient-to-br from-blue-900 via-gray-800 to-gray-700 text-white rounded-full p-3 shadow-lg transition-all duration-300"
+                            aria-label="Ir para próxima sessão"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
                 </section>
 
@@ -262,13 +265,13 @@ const Index = () => {
                             background: "linear-gradient(180deg, #071833 0%, #0c1f3f 18%, #123558 36%, #17606a 54%, #1e8a68 72%, #27a773 88%, #2f9f7c 100%)",
                         }}
                     >
-                        <div className="container mx-auto max-w-7xl px-6 py-12">
-                            <div className="text-center mb-12">
+                        <div className="container mx-auto max-w-7xl px-6 py-12 block">
+                            <div id="porque-farol-dev" className="text-center mb-12">
                                 <h2 className="text-4xl md:text-[2.75rem] font-bold mb-4 text-white">Por que escolher a Farol Dev.</h2>
                                 <p className="text-lg text-white/90 max-w-2xl mx-auto">Cada automação nasce de um diagnóstico preciso da sua rotina</p>
                             </div>
 
-                            <div className="why-cards flex flex-col md:flex-row gap-8 md:gap-10 mt-24">
+                            <div className="why-cards flex flex-col md:flex-row gap-8 md:gap-10 mt-4 md:mt-24">
                                 {[Zap, Shield, TrendingUp].map((Icon, index) => (
                                     <div key={index} className="why-card text-center flex-1">
                                         <div className="why-card__accent"></div>
@@ -335,7 +338,7 @@ const Index = () => {
                     </div>
                 </section>
 
-                <section className="section-reveal py-24 bg-gray-100">
+                <section className="section-reveal py-8 bg-gray-100">
                     <div
                         className="relative container mx-auto max-w-8xl rounded-lg bg-gray-300/80 backdrop-blur-md shadow-lg section-container-spacing"
                         style={{ padding: "4rem" }}
